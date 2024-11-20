@@ -1,11 +1,32 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
-      "name": "Debug",
+      "name": "Debug main",
       "type": "cppdbg",
       "request": "launch",
-      "program": "c:/Projekte/Calculator/pc_application/debug/main_new.exe",
+      "program": "C:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/debug/Calculator_Application.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/Qt/Tools/mingw1120_64/bin/gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Release main",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "C:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/release/Calculator_Application.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
@@ -28,8 +49,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Projekte/Calculator/pc_application",
-      "program": "c:/Projekte/Calculator/pc_application/build/Debug/outDebug",
+      "cwd": "c:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application",
+      "program": "c:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -39,6 +60,32 @@
           "ignoreFailures": true
         }
       ]
+    },
+    {
+      "name": "C/C++: g++.exe build and debug active file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "C:/Qt/Tools/mingw1120_64/bin",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\Qt\\Tools\\mingw1120_64\\bin\\gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Set Disassembly Flavor to Intel",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "C/C++: g++.exe build active file"
     }
   ]
 }

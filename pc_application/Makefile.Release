@@ -269,6 +269,8 @@ release/moc_mainwindow.cpp: src/mainwindow.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qinputmethod.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+		../../../../Qt/6.7.2/mingw_64/include/QtCore/QThread \
+		../../../../Qt/6.7.2/mingw_64/include/QtCore/QMutex \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qwidget.h \
@@ -384,7 +386,8 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-release/main.o: main.cpp ../../../../Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
+release/main.o: main.cpp src/mainwindow.h \
+		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qtguiglobal.h \
@@ -544,7 +547,8 @@ release/main.o: main.cpp ../../../../Qt/6.7.2/mingw_64/include/QtWidgets/QApplic
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qinputmethod.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
-		src/mainwindow.h \
+		../../../../Qt/6.7.2/mingw_64/include/QtCore/QThread \
+		../../../../Qt/6.7.2/mingw_64/include/QtCore/QMutex \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qwidget.h \
@@ -801,6 +805,8 @@ release/mainwindow.o: src/mainwindow.cpp src/mainwindow.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qinputmethod.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+		../../../../Qt/6.7.2/mingw_64/include/QtCore/QThread \
+		../../../../Qt/6.7.2/mingw_64/include/QtCore/QMutex \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/mingw_64/include/QtWidgets/qwidget.h \

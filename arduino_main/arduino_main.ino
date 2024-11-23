@@ -13,7 +13,7 @@ void loop() {
     //receivedMessage = Serial.readString();
     char receivedChar = Serial.read();
     if (receivedChar == '\n') {
-      String Result = GetResult(receivedMessage);
+      String Result = GetResult(receivedMessage) + '\n';
       Serial.println(Result);
       receivedMessage = "";  // Reset the received message
     } else {

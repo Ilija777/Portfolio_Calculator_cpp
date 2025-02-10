@@ -1,3 +1,0 @@
-2024-11-21 23:58:50 - No response from µC after sending: 2+2
-2024-11-21 23:58:52 - No response from µC after sending: 2+2
-2024-11-21 23:58:54 - No response from µC after sending: 2+2

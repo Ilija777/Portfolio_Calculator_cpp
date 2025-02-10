@@ -1,51 +1,18 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-            "type": "shell",
-            "label": "Build Debug",
-            "command": "C:/Qt/Tools/mingw1120_64/bin/g++.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "C:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/src/main_new.cpp",
-                "-o",
-                "C:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/debug/main_new.exe"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "C:/Qt/Tools/mingw1120_64/bin"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "detail": "Task for building debug version of main_new.cpp"
-        },
-        {
-            "type": "shell",
-            "label": "Build Release",
-            "command": "C:/Qt/Tools/mingw1120_64/bin/g++.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-O2",
-                "C:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/src/main_new.cpp",
-                "-o",
-                "C:/Projekte/Git_Projekte/Portfolio_Calculator_cpp/pc_application/release/main_new.exe"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "options": {
-                "cwd": "C:/Qt/Tools/mingw1120_64/bin"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "detail": "Task for building release version of main_new.cpp"
-        }
+      {
+        "label": "Qt qmake",
+        "type": "shell",
+        "command": "qmake -config release",
+        "problemMatcher": []
+      },
+      {
+        "label": "Qt Build (Release)",
+        "type": "shell",
+        "command": "mingw32-make",
+        "problemMatcher": []
+      }
     ]
-}
+  }
+  

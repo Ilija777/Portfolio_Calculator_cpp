@@ -1,11 +1,8 @@
 String sendMessage;
 String receivedMessage;
-// char CarriageReturn = '\r';
+
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);  //serielle Transferrate wird auf 9600 gesetzt
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on (HIGH is the voltage level)
 }
 
 void loop() {
@@ -21,9 +18,9 @@ void loop() {
     } else if (receivedChar == "") {
       String Result = GetResult(receivedMessage) + "";
       Serial.println(Result);
-      receivedMessage = "";  // Reset the received message
+      receivedMessage = "";  // Zurücksetzen der empfangenen Nachricht
     } else {
-      receivedMessage += receivedChar;  // Append characters to the received message
+      receivedMessage += receivedChar;  // Anhängen von Zeichen an die empfangene Nachricht
     }
   }
 }
@@ -33,8 +30,8 @@ String GetResult(String input_string) {
   double num1, num2;
   double result;
   int operator_index = -1;
-  int string_len = input_string.length();  //Get the length of the string
-  //Find the index of the operation in the string of the arithmetic expression
+  int string_len = input_string.length();  //Abfrage der Länge der Zeichenkette
+  //Suche nach dem Index der Operation in der Zeichenfolge des arithmetischen Ausdrucks
   for (int i = 1; i <= string_len; i++) {
     operation = input_string[i];
     if ((operation == '+') || (operation == '-') || (operation == '*') || (operation == '/')) {
@@ -42,17 +39,16 @@ String GetResult(String input_string) {
       break;
     }
   }
-
-  //If the operator was not found, an error message is displayed
+  //Wenn der Operator nicht gefunden wurde, wird eine Fehlermeldung angezeigt
   if (operator_index == -1) { return "Error: operation not found"; }
 
-  //separate the expressions and convert the numbers from string to double
+  //Die Ausdrücke trennen und die Zahlen von String in Double umwandeln
   String s_num1 = input_string.substring(0, operator_index);
   String s_num2 = input_string.substring(operator_index + 1, string_len);
   num1 = s_num1.toDouble();
   num2 = s_num2.toDouble();
 
-  //Do the actual calculation
+  //Die eigentliche Berechnung durchführen
   switch (operation) {
     case '+':
       result = num1 + num2;
@@ -71,3 +67,5 @@ String GetResult(String input_string) {
   String s_result = String(result, 4);  //Long Double in String umwandeln mit 4 Nachkommastellen
   return s_result;
 }
+
+

@@ -7,32 +7,30 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-//#include <QProcess>
 
 // ConnectionChecker Implementation
-
 ConnectionChecker::ConnectionChecker(QSerialPort *serial, QObject *parent)
     : QThread(parent), serial(serial), running(true), highPriority(false), processing(false) {}
 
-// Stops the checking process
+// Stoppt den Prüfvorgang
 void ConnectionChecker::stopChecking()
 {
     running = false;
 }
 
-// Sets the priority for connection checks
+// Legt die Priorität für Verbindungsprüfungen fest
 void ConnectionChecker::setPriority(bool highPriority)
 {
     this->highPriority = highPriority;
 }
 
-// Sets the processing flag
+// Setzt das Verarbeitungsflag
 void ConnectionChecker::setProcessingFlag(bool processing)
 {
     this->processing = processing;
 }
 
-// Thread's main function for monitoring connection
+// Die Hauptfunktion des Threads zur Überwachung der Verbindung
 void ConnectionChecker::run()
 {
     while (running)
@@ -68,7 +66,7 @@ void ConnectionChecker::run()
         emit connectionStatusChanged(isOpen); // Sende den Status
     }
 }
-// **Erkennt die Enter-Taste und sendet die Berechnung**
+
 
 // MainWindow Implementation
 MainWindow::MainWindow(QWidget *parent)
@@ -136,7 +134,7 @@ MainWindow::~MainWindow()
     delete connectionChecker;
 }
 
-// Updates the connection status
+// Aktualisiert den Verbindungsstatus
 void MainWindow::updateConnectionStatus(bool isConnected)
 {
     if (this->isConnected != isConnected) // Nur wenn sich der Status ändert
@@ -146,14 +144,14 @@ void MainWindow::updateConnectionStatus(bool isConnected)
 
         if (!isConnected)
         {
-            logOutput->append("<b>Connection lost.</b> Button send disabled.");
+            logOutput->append("<b>Warning:</b> Connection lost.");
             connectButton->setText("Connect");
             inputField->setEnabled(false);
             sendButton->setEnabled(false);
         }
         else
         {
-            logOutput->append("<b>Connected.</b> Button send enabled.");
+            logOutput->append("<b>Info:</b> Connected.");
             connectButton->setText("Disconnect");
             inputField->setEnabled(true);
             sendButton->setEnabled(true);
@@ -166,22 +164,16 @@ bool MainWindow::isProcessing() const
     return processing;
 }
 
-// Additional necessary functions like `sendCalculation`, `refreshPorts`, `toggleConnection`, etc., should be rechecked for any missing updates and called within the required context.
 
-// Sending Calculation
+// Die Eingabe an den µC Senden
 void MainWindow::sendCalculation()
 {
-    //logOutput->append("<b>Debug:</b> sendCalculation() aufgerufen.");
-
     QString calculation = inputField->text();
     if (calculation.isEmpty())
     {
         logOutput->append("<b>Error:</b> Input field is empty!");
         return;
     }
-
-    //logOutput->append("<b>Debug:</b> Eingabe erhalten: " + calculation);
-
     // Eingabe validieren
     if (!check_input(calculation))
     {
@@ -191,7 +183,7 @@ void MainWindow::sendCalculation()
 
     calculation.replace(',', '.');
     calculation += '\n'; // **Newline für Arduino!**
-    //logOutput->append("<b>Debug:</b> Sende-Befehl formatiert: " + calculation);
+
 
     if (serial->isOpen() && serial->isWritable())
     {
@@ -223,63 +215,17 @@ void MainWindow::sendCalculation()
         connectButton->setText("Connect");
     }
 }
+
+
+//Damit man auch mit Enter-Taste die Berechnung senden kann
 void MainWindow::handleEnterPressed() {
-//logOutput->append("Debug: Enter-Taste erkannt. Starte sendCalculation().");
+    if (!isConnected)
+    {
+        logOutput->append("<b>Error:</b> Please connect first!");
+        return;
+    }
     sendCalculation();
 }
-
-// void MainWindow::sendCalculation()
-// {
-//     if (processing)
-//         return; // Verarbeitung läuft bereits
-
-//     processing = true; // Verarbeitung starten
-//     sendButton->setEnabled(false);
-//     QString calculation = inputField->text();
-
-//     if (!check_input(calculation))
-//     {
-//         logOutput->append("Error: Invalid input format! Use a+b | a-b | a*b | a/b.");
-//         processing = false;
-//         sendButton->setEnabled(true);
-//         return;
-//     }
-
-//     calculation.replace(',', '.');
-//     if (serial->isOpen() && serial->isWritable())
-//     {
-//         serial->write((calculation + '\r').toStdString().c_str());
-//         serial->flush();
-//         logOutput->append("Sent: " + calculation);
-
-//         QByteArray response;
-//         while (serial->waitForReadyRead(1000)) // Timeout von 1000ms
-//         {
-//             response += serial->readAll();
-//             if (response.endsWith('\n') || response.endsWith('\r') || response.endsWith("\r\n"))
-//                 break;
-//         }
-//         if (response.isEmpty())
-//         {
-//             logOutput->append("<b>Warning:</b> No response from µC. Connection might still be active.");
-//             writeErrorLog("No response from µC after sending: " + calculation);
-//         }
-//         else
-//         {
-//             logOutput->append("Response: " + response);
-//         }
-//     }
-//     else
-//     {
-//         logOutput->append("<b>Error:</b> Not connected!");
-//         updateLED(false);
-//         connectButton->setText("Connect");
-//     }
-
-//     inputField->clear(); // Eingabefeld leeren
-//     processing = false;  // Verarbeitung abgeschlossen
-//     sendButton->setEnabled(true);
-// }
 
 // Refresh available ports
 void MainWindow::refreshPorts()
@@ -296,7 +242,7 @@ void MainWindow::refreshPorts()
 // Toggle Connection
 void MainWindow::toggleConnection()
 {
-    if (serial->isOpen()) // Verbindung trennen
+    if (serial->isOpen()) // Verbindung trennen wenn verbunden
     {
         manualDisconnection = true;
         serial->close();
@@ -318,7 +264,7 @@ void MainWindow::toggleConnection()
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::NoFlowControl);
 
-    if (serial->open(QIODevice::ReadWrite))
+    if (serial->open(QIODevice::ReadWrite)) // Verbindung herstellen
     {
         manualDisconnection = false;
         logOutput->append("Connected to " + selectedPort + ".");
@@ -336,7 +282,7 @@ void MainWindow::updateLED(bool isConnected)
     statusLED->setStyleSheet(isConnected ? "background-color: green; border-radius: 10px;" : "background-color: red; border-radius: 10px;");
 }
 
-// Save log
+// Speichert die Kommunikationhistorie in eine Text-Datei
 void MainWindow::saveLog()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Save Log", "", "Text Files (*.txt);;All Files (*)");
@@ -357,7 +303,7 @@ void MainWindow::saveLog()
     }
 }
 
-// check the users input string
+// Überprüft die Eingabe des Benutzers
 bool MainWindow::check_input(const QString &input)
 {
     try
@@ -399,6 +345,7 @@ bool MainWindow::check_input(const QString &input)
     }
 }
 
+//Schreibt in die Log-Datei falls Fehler auftreten
 void MainWindow::writeErrorLog(const QString &message)
 {
     QFile logFile(QDir::currentPath() + "/error_log.txt");
